@@ -9,7 +9,7 @@ COPY package.json ./
 RUN npm install
 
 # COPY [복사 할 파일 경로] [컨테이너내에서 파일이 복사될 경로]
-# COPY ./ ./
+COPY ./ ./
 
 # docker-compose.yml에서 node_modules volumes 지정해주면 권한오류가 계속 발생하여 추가하였음
 RUN chown -R node /usr/src/app/node_modules
