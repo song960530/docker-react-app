@@ -17,7 +17,7 @@ branches :
 # 이미지 생성
 before_install :
   - echo "start Creating an image with dockerfile"
-  - docker build -t song9605302/docker-react-app -f Dockerfile.dev ./
+  - docker build -t song9605302/docker-react-app ./
 
 # 실행할 스크립트 (테스트 실행)
 script : 
