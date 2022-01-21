@@ -8,7 +8,7 @@ language : generic
 services : 
   - docker
 
-
+# 어떤 브랜치에 Push 할 떄 CI를 동작시킬지
 branches :
   only :
     - master
@@ -26,3 +26,25 @@ script :
 # 테스트 성공 후 할일
 after_success : 
   - echo "Test Success"
+
+# 테스트 이후 배포를 하기위한 설정
+deploy : 
+  # 외부 서비스 표시 (s3, elasticbeanstalk, firebase 등등)
+  provider : elasticbeanstalk
+  # 현재 사용하고 있는 AWS의 서비스가 위치하고 있는 물리적 장소
+  region : "us-east-1"
+  # 생성된 어플리케이션 이름
+  app : "docker-react-app"
+  env : "Dockerreactapp-env"
+  # travis 에서 바로 EB로 보내는것이 아니라 중간에 S3로 압축하여 보내기 때문에 설정을 해줘야함
+  bucket_name : "elasticbeanstalk-us-east-1-433612818736"
+  # 어플리케이션 이름과 동일
+  bucket_path : "docker-react-app"
+  # 어떤 브랜치에 Push할때 AWS에 배포할지
+  on :
+    branch : master
+  # AWS와 TravisCI간의 인증을 위한 API key 설정 부분
+  # AWS의 IAM이라는 사용자를 추가하여 EB권한을 부여한 사용자의 액세스키와 비밀 액세스키 설정
+  # 해당 키값들은 노출되면 안되기 때문에 Travis-CI의 설정에 환경변수로 설정하여 사용
+  access_key_id : $AWS_ACCESS_KEY
+  secret_access_key : $AWS_SECRET_ACCESS_KEY
